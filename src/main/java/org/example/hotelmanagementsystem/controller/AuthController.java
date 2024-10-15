@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.example.hotelmanagementsystem.dto.CodeRequestDto;
 import org.example.hotelmanagementsystem.dto.RegisterDto;
-import org.example.hotelmanagementsystem.dto.ResponseDto;
+import org.example.hotelmanagementsystem.dto.TokenResDto;
 import org.example.hotelmanagementsystem.dto.TokenDto;
 import org.example.hotelmanagementsystem.service.AuthService;
 import org.springframework.http.HttpEntity;
@@ -23,7 +23,7 @@ public class AuthController {
     @PostMapping("login")
     public HttpEntity<?> login(@RequestBody RegisterDto reqDto){
         TokenDto token = authService.login(reqDto);
-        return ResponseEntity.ok(ResponseDto.builder().message("Authorization token").body(token).build());
+        return ResponseEntity.ok(TokenResDto.builder().message("Authorization and refresh token").body(token).build());
     }
 
 
@@ -36,7 +36,7 @@ public class AuthController {
     @PostMapping("confirm")
     public HttpEntity<?> confirmMailCode(@RequestBody CodeRequestDto codeDto, HttpServletRequest request){
         TokenDto token = authService.confirmMailCodeAndRegister(codeDto.getCode(), request);
-        return ResponseEntity.ok(ResponseDto.builder().message("Authorization token").body(token).build());
+        return ResponseEntity.ok(TokenResDto.builder().message("Authorization and refresh token").body(token).build());
     }
 }
 
