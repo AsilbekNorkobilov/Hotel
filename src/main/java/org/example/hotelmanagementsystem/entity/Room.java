@@ -1,9 +1,7 @@
 package org.example.hotelmanagementsystem.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.hotelmanagementsystem.entity.enums.RoomType;
 
@@ -12,7 +10,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 @Table(name = "room")
 public class Room {
     @Id
