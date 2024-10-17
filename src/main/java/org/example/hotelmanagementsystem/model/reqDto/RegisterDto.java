@@ -1,4 +1,4 @@
-package org.example.hotelmanagementsystem.dto;
+package org.example.hotelmanagementsystem.model.reqDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -22,12 +22,16 @@ public class Room {
 
     private Integer floor;
 
+    private Integer bedsCount;
+
     private Integer roomNumber;
 
     @Enumerated(EnumType.STRING)
     private RoomType roomType;
 
     private Double price;
+
+    private Boolean isArchived;
 
 
 }
