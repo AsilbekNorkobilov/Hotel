@@ -2,10 +2,10 @@ package org.example.hotelmanagementsystem.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.example.hotelmanagementsystem.dto.CodeRequestDto;
-import org.example.hotelmanagementsystem.dto.RegisterDto;
-import org.example.hotelmanagementsystem.dto.TokenResDto;
-import org.example.hotelmanagementsystem.dto.TokenDto;
+import org.example.hotelmanagementsystem.model.reqDto.CodeRequestDto;
+import org.example.hotelmanagementsystem.model.reqDto.RegisterDto;
+import org.example.hotelmanagementsystem.model.resDto.TokenResDto;
+import org.example.hotelmanagementsystem.model.resDto.TokenDto;
 import org.example.hotelmanagementsystem.service.AuthService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;

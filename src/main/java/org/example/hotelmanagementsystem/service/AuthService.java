@@ -1,8 +1,8 @@
 package org.example.hotelmanagementsystem.service;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.example.hotelmanagementsystem.dto.RegisterDto;
-import org.example.hotelmanagementsystem.dto.TokenDto;
+import org.example.hotelmanagementsystem.model.reqDto.RegisterDto;
+import org.example.hotelmanagementsystem.model.resDto.TokenDto;
 
 
 public interface AuthService {
