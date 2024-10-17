@@ -1,6 +1,6 @@
 package org.example.hotelmanagementsystem.exceptions;
 
-import org.example.hotelmanagementsystem.dto.ExceptionDto;
+import org.example.hotelmanagementsystem.model.resDto.ExceptionDto;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
