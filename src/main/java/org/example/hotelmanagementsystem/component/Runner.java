@@ -26,7 +26,7 @@ public class Runner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if (ddl.equals("create")){
             Role roleAdmin=new Role(1, RoleName.ROLE_ADMIN);
-            Role roleUser=new Role(2,RoleName.ROLE_USER);
+            Role roleUser=new Role(2,RoleName.ROLE_CUSTOMER);
             roleRepository.save(roleAdmin);
             roleRepository.save(roleUser);
             User admin=User.builder()
