@@ -20,5 +20,7 @@ public class Hotel {
     private String phone;
     private String email;
     private String address;
+    private Boolean isArchived;
+
 
 }
