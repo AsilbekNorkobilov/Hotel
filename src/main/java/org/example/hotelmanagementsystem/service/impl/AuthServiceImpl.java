@@ -57,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
         Integer mailCode = jwtUtil.getMailCode(confirmToken);
         RegisterDto reqDto = jwtUtil.getReqDto(confirmToken);
         if (code.equals(mailCode)){
-            Role userRole = roleRepository.findRoleByRoleName(RoleName.ROLE_USER);
+            Role userRole = roleRepository.findRoleByRoleName(RoleName.ROLE_CUSTOMER);
             User user=User.builder()
                     .roles(List.of(userRole))
                     .email(reqDto.getEmail())
