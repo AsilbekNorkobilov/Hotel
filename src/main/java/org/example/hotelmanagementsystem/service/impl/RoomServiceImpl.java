@@ -8,6 +8,9 @@ import org.example.hotelmanagementsystem.model.reqDto.RoomReqDto;
 import org.example.hotelmanagementsystem.model.resDto.RoomResDto;
 import org.example.hotelmanagementsystem.repo.RoomRepository;
 import org.example.hotelmanagementsystem.service.RoomService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,23 +26,25 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
     @Override
-    public HttpEntity<?> getAllRooms() {
+    public HttpEntity<?> getAllRooms(Pageable pageable) {
         List<Room> allRooms = roomRepository.findAllByIsArchivedFalse();
         List<RoomResDto> roomsResList=new ArrayList<>();
         for (Room room : allRooms) {
             roomsResList.add(roomMapper.toDto(room));
         }
-        return ResponseEntity.ok(roomsResList);
+        Page<RoomResDto> pagedRooms=new PageImpl<>(roomsResList,pageable,roomsResList.size());
+        return ResponseEntity.ok(pagedRooms);
     }
 
     @Override
-    public HttpEntity<?> getRoomByType(RoomType type) {
+    public HttpEntity<?> getRoomByType(RoomType type, Pageable pageable) {
         List<Room> allByRoomType = roomRepository.findAllByRoomTypeAndIsArchivedFalse(type);
         List<RoomResDto> roomsResList=new ArrayList<>();
         for (Room room : allByRoomType) {
             roomsResList.add(roomMapper.toDto(room));
         }
-        return ResponseEntity.ok(roomsResList);
+        Page<RoomResDto> pagedRooms=new PageImpl<>(roomsResList,pageable,roomsResList.size());
+        return ResponseEntity.ok(pagedRooms);
     }
 
     @Override
@@ -58,13 +63,14 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public HttpEntity<?> getAllArchivedRooms() {
+    public HttpEntity<?> getAllArchivedRooms(Pageable pageable) {
         List<Room> allByIsArchivedTrue = roomRepository.findAllByIsArchivedTrue();
         List<RoomResDto> roomsResList=new ArrayList<>();
         for (Room room : allByIsArchivedTrue) {
             roomsResList.add(roomMapper.toDto(room));
         }
-        return ResponseEntity.ok(roomsResList);
+        Page<RoomResDto> pagedRooms=new PageImpl<>(roomsResList,pageable,roomsResList.size());
+        return ResponseEntity.ok(pagedRooms);
     }
 
     @Override
