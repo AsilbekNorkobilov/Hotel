@@ -33,4 +33,5 @@ public class CustomerController {
     public HttpEntity<?> editCustomer(@RequestBody RegisterDto customerDto, @PathVariable UUID id){
         return customerService.edit(customerDto,id);
     }
+
 }

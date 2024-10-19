@@ -12,4 +12,5 @@ public interface CustomerService {
     HttpEntity<?> getMe();
 
     HttpEntity<?> edit(RegisterDto customerDto, UUID id);
+
 }
