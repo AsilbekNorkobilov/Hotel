@@ -31,11 +31,15 @@ public class Runner implements CommandLineRunner {
             roleRepository.save(roleUser);
             User admin=User.builder()
                     .email("a@gmail.com")
+                    .firstName("A")
+                    .lastName("AA")
                     .password(passwordEncoder.encode("root123"))
                     .roles(List.of(roleAdmin))
                     .build();
             User user=User.builder()
                     .email("b@gmail.com")
+                    .firstName("B")
+                    .lastName("BB")
                     .password(passwordEncoder.encode("root123"))
                     .roles(List.of(roleUser))
                     .build();
