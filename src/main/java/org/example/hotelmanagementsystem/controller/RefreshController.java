@@ -1,5 +1,6 @@
 package org.example.hotelmanagementsystem.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.example.hotelmanagementsystem.service.RefreshService;
 import org.springframework.http.HttpEntity;
@@ -15,6 +16,7 @@ public class RefreshController {
 
     private final RefreshService refreshService;
 
+    @Operation(summary = "refresh token",description = "Endpoint will renew access token")
     @GetMapping
     public HttpEntity<?> refresh(){
         String token = refreshService.refresh();
