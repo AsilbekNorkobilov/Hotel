@@ -6,8 +6,6 @@ import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface OrderMapper {
-    @Mapping(source = "userLastName", target = "user.lastName")
-    @Mapping(source = "userFirstName", target = "user.firstName")
     @Mapping(source = "userEmail", target = "user.email")
     @Mapping(source = "roomPrice", target = "room.price")
     @Mapping(source = "roomRoomType", target = "room.roomType")
