@@ -1,8 +1,7 @@
 package org.example.hotelmanagementsystem.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.example.hotelmanagementsystem.entity.enums.RoomType;
 
 import java.util.UUID;
@@ -10,7 +9,10 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "room")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -31,7 +33,8 @@ public class Room {
 
     private Double price;
 
-    private Boolean isArchived;
+    @Column(columnDefinition = "boolean default false")
+    private boolean isArchived;
 
 
 }

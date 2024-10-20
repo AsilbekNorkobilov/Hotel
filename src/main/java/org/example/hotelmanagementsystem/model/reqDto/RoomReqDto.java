@@ -17,6 +17,5 @@ public class RoomReqDto implements Serializable {
     Integer roomNumber;
     RoomType roomType;
     Double price;
-    Boolean isArchived;
 
 }
