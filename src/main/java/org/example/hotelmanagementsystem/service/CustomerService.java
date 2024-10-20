@@ -13,4 +13,9 @@ public interface CustomerService {
 
     HttpEntity<?> edit(RegisterDto customerDto, UUID id);
 
+    HttpEntity<?> getAllCustomers(Pageable pageable);
+
+    HttpEntity<?> getAllAdmins(Pageable pageable);
+
+    HttpEntity<?> makeAdmin(UUID id);
 }

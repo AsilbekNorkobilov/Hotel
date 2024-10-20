@@ -32,6 +32,7 @@ public class SecurityConfig {
             m.requestMatchers("api/room/type").permitAll();
             m.requestMatchers("api/hotel/all").permitAll();
             m.requestMatchers("/api/order/all").hasRole("ADMIN");
+            m.requestMatchers("/api/admin/**").hasRole("ADMIN");
             m.anyRequest().authenticated();
         });
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
