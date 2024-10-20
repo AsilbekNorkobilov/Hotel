@@ -1,15 +1,17 @@
 package org.example.hotelmanagementsystem.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "hotel")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

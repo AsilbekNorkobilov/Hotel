@@ -19,9 +19,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,10 +38,7 @@ public class CustomerServiceImpl implements CustomerService{
         String email = currentUser.getMe();
         User customer = userRepository.findUserByEmail(email).orElseThrow(() -> new RuntimeException("Customer not found"));
         List<Order> customerOrders = orderRepository.findAllByUser(customer);
-        List<OrderResDto> orderResDtoList=new ArrayList<>();
-        for (Order customerOrder : customerOrders) {
-            orderResDtoList.add(orderMapper.toDto(customerOrder));
-        }
+        List<OrderResDto> orderResDtoList = customerOrders.stream().map(orderMapper::toDto).collect(Collectors.toList());
         Page<OrderResDto> pagedOrders=new PageImpl<>(orderResDtoList,pageable,orderResDtoList.size());
         return ResponseEntity.ok(pagedOrders);
     }
