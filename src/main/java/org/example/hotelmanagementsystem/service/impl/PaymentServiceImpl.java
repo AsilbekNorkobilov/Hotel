@@ -17,8 +17,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,10 +37,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public HttpEntity<?> getAllPayments(Pageable pageable) {
         List<Payment> all = paymentRepository.findAll();
-        List<PaymentResDto> paymentResList=new ArrayList<>();
-        for (Payment payment : all) {
-            paymentResList.add(paymentMapper.toDto(payment));
-        }
+        List<PaymentResDto> paymentResList = all.stream().map(paymentMapper::toDto).collect(Collectors.toList());
         Page<PaymentResDto> pagedPayments=new PageImpl<>(paymentResList,pageable,paymentResList.size());
         return ResponseEntity.ok(pagedPayments);
     }
@@ -49,10 +46,7 @@ public class PaymentServiceImpl implements PaymentService {
         String email = currentUser.getMe();
         User user = userRepository.findUserByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
         List<Payment> customersPayment = paymentRepository.findCustomersPayment(user.getId());
-        List<PaymentResDto> paymentResList=new ArrayList<>();
-        for (Payment payment : customersPayment) {
-            paymentResList.add(paymentMapper.toDto(payment));
-        }
+        List<PaymentResDto> paymentResList = customersPayment.stream().map(paymentMapper::toDto).collect(Collectors.toList());
         Page<PaymentResDto> pagedPayments=new PageImpl<>(paymentResList,pageable,paymentResList.size());
         return ResponseEntity.ok(pagedPayments);
     }

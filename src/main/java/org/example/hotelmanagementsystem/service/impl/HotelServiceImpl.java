@@ -15,9 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,10 +27,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public HttpEntity<?> getAllHotels(Pageable pageable) {
         List<Hotel> all = hotelRepository.findAllByIsArchivedFalse();
-        List<HotelResDto> hotelResList=new ArrayList<>();
-        for (Hotel hotel : all) {
-            hotelResList.add(hotelMapper.toDto(hotel));
-        }
+        List<HotelResDto> hotelResList = all.stream().map(hotelMapper::toDto).collect(Collectors.toList());
         Page<HotelResDto> pagedHotel=new PageImpl<>(hotelResList,pageable,hotelResList.size());
         return ResponseEntity.ok(pagedHotel);
     }
@@ -45,10 +42,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public HttpEntity<?> getAllArchivedHotels(Pageable pageable) {
         List<Hotel> all = hotelRepository.findAllByIsArchivedTrue();
-        List<HotelResDto> archivedHotels=new ArrayList<>();
-        for (Hotel hotel : all) {
-            archivedHotels.add(hotelMapper.toDto(hotel));
-        }
+        List<HotelResDto> archivedHotels = all.stream().map(hotelMapper::toDto).collect(Collectors.toList());
         Page<HotelResDto> pagedHotel=new PageImpl<>(archivedHotels,pageable,archivedHotels.size());
         return ResponseEntity.ok(pagedHotel);
     }
