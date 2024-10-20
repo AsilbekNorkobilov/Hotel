@@ -2,7 +2,7 @@ package org.example.hotelmanagementsystem.service.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.example.hotelmanagementsystem.component.MailCodeSender;
+import org.example.hotelmanagementsystem.component.MailMessageSender;
 import org.example.hotelmanagementsystem.model.reqDto.RegisterDto;
 import org.example.hotelmanagementsystem.model.resDto.TokenDto;
 import org.example.hotelmanagementsystem.entity.Role;
@@ -12,6 +12,7 @@ import org.example.hotelmanagementsystem.repo.RoleRepository;
 import org.example.hotelmanagementsystem.repo.UserRepository;
 import org.example.hotelmanagementsystem.security.JwtUtil;
 import org.example.hotelmanagementsystem.service.AuthService;
+import org.springframework.http.HttpEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,7 +29,7 @@ import java.util.Random;
 public class AuthServiceImpl implements AuthService {
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
-    private final MailCodeSender mailCodeSender;
+    private final MailMessageSender mailCodeSender;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -72,5 +73,11 @@ public class AuthServiceImpl implements AuthService {
             );
         }
         throw new BadCredentialsException("Invalid code try again");
+    }
+
+    @Override
+    public HttpEntity<?> forgotPassword(String email) {
+        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+        return null;
     }
 }

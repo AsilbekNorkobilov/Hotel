@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @RequiredArgsConstructor
+@EnableMethodSecurity
 public class SecurityConfig {
     private final JwtFilter jwtFilter;
     private final CustomUserDetailsService customUserDetailsService;
@@ -25,8 +27,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomAuthenticationEntryPoint e) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(m->{
-            m.requestMatchers("/api/auth/login").permitAll();
-            m.requestMatchers("/api/auth/register").permitAll();
+            m.requestMatchers("/api/auth/**").permitAll();
+            m.requestMatchers("api/room/all").permitAll();
+            m.requestMatchers("api/room/type").permitAll();
+            m.requestMatchers("api/hotel/all").permitAll();
+            m.requestMatchers("/api/order/all").hasRole("ADMIN");
             m.anyRequest().authenticated();
         });
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

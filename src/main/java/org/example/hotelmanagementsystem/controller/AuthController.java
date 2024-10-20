@@ -9,10 +9,7 @@ import org.example.hotelmanagementsystem.model.resDto.TokenDto;
 import org.example.hotelmanagementsystem.service.AuthService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RequestMapping("api/auth")
@@ -37,6 +34,11 @@ public class AuthController {
     public HttpEntity<?> confirmMailCode(@RequestBody CodeRequestDto codeDto, HttpServletRequest request){
         TokenDto token = authService.confirmMailCodeAndRegister(codeDto.getCode(), request);
         return ResponseEntity.ok(TokenResDto.builder().message("Authorization and refresh token").body(token).build());
+    }
+
+    @PostMapping("forgot")
+    public HttpEntity<?> forgotPassword(@RequestParam String email){
+        return authService.forgotPassword(email);
     }
 }
 
