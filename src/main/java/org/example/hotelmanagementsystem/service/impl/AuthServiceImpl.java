@@ -13,6 +13,7 @@ import org.example.hotelmanagementsystem.repo.UserRepository;
 import org.example.hotelmanagementsystem.security.JwtUtil;
 import org.example.hotelmanagementsystem.service.AuthService;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -77,7 +79,17 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public HttpEntity<?> forgotPassword(String email) {
-        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
-        return null;
+        Optional<User> opt = userRepository.findUserByEmail(email);
+        if (opt.isPresent()){
+            User user = opt.get();
+            Integer code=new Random().nextInt(1000,10000);
+            user.setPassword(passwordEncoder.encode(code.toString()));
+            userRepository.save(user);
+            mailCodeSender.sendPassword(code,email);
+            return ResponseEntity.ok("Check your email");
+        }else {
+            return ResponseEntity.ok("There is no user with this email");
+        }
+
     }
 }

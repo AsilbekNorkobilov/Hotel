@@ -21,10 +21,10 @@ public class MailMessageSender {
     }
 
     @Async
-    public void sendPassword(String password, String email){
+    public void sendPassword(Integer password, String email){
         SimpleMailMessage mailMessage=new SimpleMailMessage();
-        mailMessage.setSubject("Your password");
-        mailMessage.setText("Your password is : "+password);
+        mailMessage.setSubject("Your new password");
+        mailMessage.setText("Your new password is : "+password+". Please DO NOT FORGET CHANGE IT");
         mailMessage.setTo(email);
         javaMailSender.send(mailMessage);
     }
