@@ -11,6 +11,7 @@ import org.example.hotelmanagementsystem.entity.Room;
 import org.example.hotelmanagementsystem.entity.User;
 import org.example.hotelmanagementsystem.mappers.OrderMapper;
 import org.example.hotelmanagementsystem.model.reqDto.DownloadOrderDto;
+import org.example.hotelmanagementsystem.model.reqDto.OrderByRoomDto;
 import org.example.hotelmanagementsystem.model.reqDto.OrderReqDto;
 import org.example.hotelmanagementsystem.model.reqDto.RateDto;
 import org.example.hotelmanagementsystem.model.resDto.OrderResDto;
@@ -53,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public HttpEntity<?> makeOrder(OrderReqDto orderReqDto) {
+    public HttpEntity<?> makeOrderIfAvailable(OrderReqDto orderReqDto) {
         List<Room> rooms = roomRepository.allEmptyRooms(orderReqDto.getRoomRoomType(), orderReqDto.getRoomBedsCount(), orderReqDto.getCheckIn(), orderReqDto.getCheckOut());
         if (!rooms.isEmpty()){
             String email = currentUser.getMe();
@@ -128,5 +129,19 @@ public class OrderServiceImpl implements OrderService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public HttpEntity<?> makeOrderByRoomId(OrderByRoomDto orderByRoomDto) {
+        User user = userRepository.findById(orderByRoomDto.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
+        Room room = roomRepository.findById(orderByRoomDto.getRoomId()).orElseThrow(() -> new RuntimeException("Room not foound"));
+        Order order=Order.builder()
+                .room(room)
+                .user(user)
+                .checkIn(orderByRoomDto.getCheckIn())
+                .checkOut(orderByRoomDto.getCheckOut())
+                .build();
+        orderRepository.save(order);
+        return ResponseEntity.ok("Order created");
     }
 }
