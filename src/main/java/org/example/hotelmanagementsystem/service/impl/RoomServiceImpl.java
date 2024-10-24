@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.hotelmanagementsystem.entity.Room;
 import org.example.hotelmanagementsystem.entity.enums.RoomType;
 import org.example.hotelmanagementsystem.mappers.RoomMapper;
+import org.example.hotelmanagementsystem.model.reqDto.AvailableRoomReqDto;
 import org.example.hotelmanagementsystem.model.reqDto.RoomReqDto;
 import org.example.hotelmanagementsystem.model.resDto.RoomResDto;
 import org.example.hotelmanagementsystem.repo.RoomRepository;
@@ -78,5 +79,13 @@ public class RoomServiceImpl implements RoomService {
         room.setId(id);
         roomRepository.save(room);
         return ResponseEntity.ok("Room edited");
+    }
+
+    @Override
+    public HttpEntity<?> getAvailableRooms(AvailableRoomReqDto available, Pageable pageable) {
+        List<Room> rooms = roomRepository.allAvailableRooms(available.getRoomBedsCount(), available.getCheckIn(), available.getCheckOut());
+        List<RoomResDto> collect = rooms.stream().map(roomMapper::toDto).collect(Collectors.toList());
+        Page<RoomResDto> pagedRooms=new PageImpl<>(collect,pageable,collect.size());
+        return ResponseEntity.ok(pagedRooms);
     }
 }
