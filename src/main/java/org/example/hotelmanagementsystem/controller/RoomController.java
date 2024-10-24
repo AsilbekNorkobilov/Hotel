@@ -3,6 +3,7 @@ package org.example.hotelmanagementsystem.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.example.hotelmanagementsystem.entity.enums.RoomType;
+import org.example.hotelmanagementsystem.model.reqDto.AvailableRoomReqDto;
 import org.example.hotelmanagementsystem.model.reqDto.RoomReqDto;
 import org.example.hotelmanagementsystem.service.RoomService;
 import org.springframework.data.domain.PageRequest;
@@ -37,6 +38,18 @@ public class RoomController {
         Pageable pageable= PageRequest.of(page,size, Sort.by(sortBy));
         return roomService.getRoomByType(type,pageable);
     }
+
+    @Operation(summary = "All rooms by type",description = "Endpoint returns all rooms by provided type")
+    @GetMapping("available")
+    public HttpEntity<?> getAvailableRooms(@RequestBody AvailableRoomReqDto availableRoomReqDto,
+                                       @RequestParam(defaultValue = "0") int page,
+                                       @RequestParam(defaultValue = "10") int size,
+                                       @RequestParam(defaultValue = "id") String sortBy){
+        Pageable pageable= PageRequest.of(page,size, Sort.by(sortBy));
+        return roomService.getAvailableRooms(availableRoomReqDto,pageable);
+    }
+
+
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "All archived rooms",description = "Endpoint returns all archived rooms. Accessible only to users with the 'ROLE_ADMIN' role")
     @GetMapping("archived")

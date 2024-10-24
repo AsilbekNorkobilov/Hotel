@@ -17,7 +17,11 @@ public interface RoomRepository extends JpaRepository<Room, UUID> {
 
     List<Room> findAllByArchivedTrue();
 
-    @Query(nativeQuery = true, value = "SELECT *FROM room WHERE beds_count =:bedsCount AND room_type =:roomType  AND id NOT IN (\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM room WHERE beds_count =:bedsCount AND room_type =:roomType AND NOT is_archived AND id NOT IN (\n" +
             "    SELECT o.room_id FROM orders o WHERE NOT ( (o.check_out <=:checkIn) OR (o.check_in >=:checkOut)))")
     List<Room> allEmptyRooms(RoomType roomType, Integer bedsCount, LocalDate checkIn, LocalDate checkOut);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM room WHERE beds_count =:bedsCount AND NOT is_archived AND id NOT IN (\n" +
+            "    SELECT o.room_id FROM orders o WHERE NOT ( (o.check_out <=:checkIn) OR (o.check_in >=:checkOut)))")
+    List<Room> allAvailableRooms(Integer bedsCount, LocalDate checkIn, LocalDate checkOut);
 }
